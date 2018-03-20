@@ -145,6 +145,14 @@ class tumor_data_np(torch.utils.data.Dataset):
         self.images = images
         self.labels = labels
         self.masks = masks
+        
+    def shuffle(self):
+        perm = np.random.permutation(self.images.shape(0))
+        self.images = self.images[perm]
+        self.labels = self.labels[perm]
+        
+        if self.masks:
+            self.masks = self.masks[perm]
     
     def __len__(self):
         return self.images.shape[0]
