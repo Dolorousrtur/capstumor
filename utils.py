@@ -140,19 +140,9 @@ class tumor_data(torch.utils.data.Dataset):
     
 class tumor_data_np(torch.utils.data.Dataset):
     def __init__(self, images, labels, masks=None):
-        
-            
         self.images = images
         self.labels = labels
-        self.masks = masks
-        
-    def shuffle(self):
-        perm = np.random.permutation(self.images.shape(0))
-        self.images = self.images[perm]
-        self.labels = self.labels[perm]
-        
-        if self.masks:
-            self.masks = self.masks[perm]
+        self.masks = masks        
     
     def __len__(self):
         return self.images.shape[0]
@@ -161,7 +151,7 @@ class tumor_data_np(torch.utils.data.Dataset):
         img = self.images[idx]        
         if self.masks is not None:
             img = img*self.masks[idx]
-        img = torch.from_numpy(img)
+        img = torch.from_numpy(img).float()
         
         target = torch.from_numpy(np.array([self.labels[idx]]))
         
